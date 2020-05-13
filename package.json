@@ -1,0 +1,25 @@
+{
+  "name": "inventory-app",
+  "version": "1.0.0",
+  "description": "A home inventory app with SQL Database ",
+  "main": "index.js",
+  "scripts": {
+    "migrate": "knex migrate:latest",
+    "rollback": "knex migrate:rollback"
+  },
+  "author": "Santiago Cardona",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "knex": "^0.21.1",
+    "pg": "^8.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.0.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
+  }
+}
