@@ -1,6 +1,6 @@
 'use scrit'
 
-const tableNames = require('../../src/constants/tableNames')
+const orderedTableNames = require('../../src/constants/orderedTableNames')
 
 function addDefaultColumns (table) {
   table.timestamps(false, true)
@@ -34,7 +34,7 @@ function references (table, tableName) {
 
 exports.up = async knex => {
   await Promise.all([
-    knex.schema.createTable(tableNames.user, table => {
+    knex.schema.createTable(orderedTableNames.user, table => {
       table.increments().notNullable()
       email(table, 'email').notNullable().unique()
       table.string('name').notNullable()
@@ -42,11 +42,11 @@ exports.up = async knex => {
       table.datetime('last_login')
       addDefaultColumns(table)
     }),
-    createNameTable(knex, tableNames.item_type),
-    createNameTable(knex, tableNames.country),
-    createNameTable(knex, tableNames.state),
-    createNameTable(knex, tableNames.shape),
-    knex.schema.createTable(tableNames.location, table => {
+    createNameTable(knex, orderedTableNames.item_type),
+    createNameTable(knex, orderedTableNames.country),
+    createNameTable(knex, orderedTableNames.state),
+    createNameTable(knex, orderedTableNames.shape),
+    knex.schema.createTable(orderedTableNames.location, table => {
       table.increments().notNullable()
       table.string('name').notNullable().unique()
       table.string('description', 1000)
@@ -55,7 +55,7 @@ exports.up = async knex => {
     })
   ])
 
-  await knex.schema.createTable(tableNames.address, table => {
+  await knex.schema.createTable(orderedTableNames.address, table => {
     table.increments().notNullable()
     table.string('street_address_1', 50).notNullable()
     table.string('street_address_2', 50)
@@ -67,7 +67,7 @@ exports.up = async knex => {
     references(table, 'country')
   })
 
-  await knex.schema.createTable(tableNames.manufacturer, table => {
+  await knex.schema.createTable(orderedTableNames.manufacturer, table => {
     table.increments().notNullable()
     table.string('name').notNullable()
     url(table, 'logo_url')
@@ -80,13 +80,13 @@ exports.up = async knex => {
 
 exports.down = async knex => {
   await Promise.all([
-    tableNames.manufacturer,
-    tableNames.address,
-    tableNames.user,
-    tableNames.item_type,
-    tableNames.country,
-    tableNames.state,
-    tableNames.shape,
-    tableNames.location
+    orderedTableNames.manufacturer,
+    orderedTableNames.address,
+    orderedTableNames.user,
+    orderedTableNames.item_type,
+    orderedTableNames.country,
+    orderedTableNames.state,
+    orderedTableNames.shape,
+    orderedTableNames.location
   ].map(tableName => knex.schema.dropTable(tableName)))
 }

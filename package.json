@@ -5,11 +5,13 @@
   "main": "index.js",
   "scripts": {
     "migrate": "knex migrate:latest",
-    "rollback": "knex migrate:rollback"
+    "rollback": "knex migrate:rollback",
+    "seed": "knex seed:run"
   },
   "author": "Santiago Cardona",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^4.0.1",
     "dotenv": "^8.2.0",
     "knex": "^0.21.1",
     "pg": "^8.1.0"
