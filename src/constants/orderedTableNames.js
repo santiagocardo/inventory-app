@@ -8,5 +8,7 @@ module.exports = {
   country: 'country',
   shape: 'shape',
   location: 'location',
-  user: 'user'
+  user: 'user',
+  size: 'size',
+  item: 'item'
 }

@@ -1,36 +1,13 @@
 'use scrit'
 
 const orderedTableNames = require('../../src/constants/orderedTableNames')
-
-function addDefaultColumns (table) {
-  table.timestamps(false, true)
-  table.datetime('deleted_at')
-}
-
-function createNameTable (knex, tableName) {
-  return knex.schema.createTable(tableName, table => {
-    table.increments().notNullable()
-    table.string('name').notNullable().unique()
-    addDefaultColumns(table)
-  })
-}
-
-function url (table, columnName) {
-  table.string(columnName, 2000)
-}
-
-function email (table, columnName) {
-  return table.string(columnName, 254)
-}
-
-function references (table, tableName) {
-  table
-    .integer(`${tableName}_id`)
-    .unsigned()
-    .references('id')
-    .inTable(tableName)
-    .onDelete('cascade')
-}
+const {
+  addDefaultColumns,
+  createNameTable,
+  url,
+  email,
+  references
+} = require('../../src/lib/tableUtils')
 
 exports.up = async knex => {
   await Promise.all([
@@ -63,7 +40,7 @@ exports.up = async knex => {
     table.string('zipcode', 5).notNullable()
     table.float('latitude').notNullable()
     table.float('longitude').notNullable()
-    references(table, 'state')
+    references(table, 'state', false)
     references(table, 'country')
   })
 
