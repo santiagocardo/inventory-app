@@ -4,11 +4,11 @@ const crypto = require('crypto')
 const bcrypt = require('bcrypt')
 
 const orderedTableNames = require('../../src/constants/orderedTableNames')
-const countries = require('../../src/constants/countries')
+const getData = require('../../src/lib/getCvsData')
 
 exports.seed = async knex => {
   await Promise.all([
-    ...Object
+    Object
       .keys(orderedTableNames)
       .map(tableName => knex(tableName).del())
   ])
@@ -21,17 +21,18 @@ exports.seed = async knex => {
     password: await bcrypt.hash(password, 12)
   }
 
-  const [createdUser] = await knex(orderedTableNames.user)
-    .insert(user)
-    .returning('*')
+  const [createdUser] = await knex(orderedTableNames.user).insert(user, '*')
 
-  console.log('User created:', {
-    password
-  }, createdUser)
+  console.log('User created:', { password }, createdUser)
 
-  await knex(orderedTableNames.country)
-    .insert(countries)
+  const countries = getData('countries')
+  const insertedCountries = await knex(orderedTableNames.country).insert(countries, '*')
+  const usa = insertedCountries.find(country => country.code === 'US')
 
-  await knex(orderedTableNames.state)
-    .insert([{ name: 'AN' }])
+  const usStates = getData('us_states')
+  const mappedUsStates = usStates.map(state => ({
+    ...state, country_id: usa.id
+  }))
+
+  await knex(orderedTableNames.state).insert(mappedUsStates)
 }

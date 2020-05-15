@@ -9,9 +9,10 @@ const {
 
 exports.up = async knex => {
   await Promise.all([
-    knex.schema.table(orderedTableNames.state, table =>
+    knex.schema.table(orderedTableNames.state, table => {
       table.string('code', 2)
-    ),
+      references(table, orderedTableNames.country)
+    }),
     knex.schema.table(orderedTableNames.country, table =>
       table.string('code', 2)
     )
@@ -72,9 +73,10 @@ exports.up = async knex => {
 
 exports.down = async knex => {
   await Promise.all([
-    knex.schema.table(orderedTableNames.state, table =>
+    knex.schema.table(orderedTableNames.state, table => {
       table.dropColumn('code')
-    ),
+      table.dropColumn('country_id')
+    }),
     knex.schema.table(orderedTableNames.country, table =>
       table.dropColumn('code')
     )
