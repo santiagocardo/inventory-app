@@ -23,7 +23,7 @@ exports.up = async knex => {
     createNameTable(knex, orderedTableNames.country),
     createNameTable(knex, orderedTableNames.state),
     createNameTable(knex, orderedTableNames.shape),
-    knex.schema.createTable(orderedTableNames.location, table => {
+    knex.schema.createTable(orderedTableNames.inventory_location, table => {
       table.increments().notNullable()
       table.string('name').notNullable().unique()
       table.string('description', 1000)
@@ -44,7 +44,7 @@ exports.up = async knex => {
     references(table, 'country')
   })
 
-  await knex.schema.createTable(orderedTableNames.manufacturer, table => {
+  await knex.schema.createTable(orderedTableNames.company, table => {
     table.increments().notNullable()
     table.string('name').notNullable()
     url(table, 'logo_url')
@@ -57,13 +57,13 @@ exports.up = async knex => {
 
 exports.down = async knex => {
   await Promise.all([
-    orderedTableNames.manufacturer,
+    orderedTableNames.company,
     orderedTableNames.address,
     orderedTableNames.user,
     orderedTableNames.item_type,
     orderedTableNames.country,
     orderedTableNames.state,
     orderedTableNames.shape,
-    orderedTableNames.location
-  ].map(tableName => knex.schema.dropTable(tableName)))
+    orderedTableNames.inventory_location
+  ].map(tableName => knex.schema.dropTableIfExists(tableName)))
 }
