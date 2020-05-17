@@ -2,7 +2,7 @@
 
 function addDefaultColumns (table) {
   table.timestamps(false, true)
-  table.datetime('deleted_at')
+  return table.datetime('deleted_at')
 }
 
 function createNameTable (knex, tableName) {
@@ -14,7 +14,7 @@ function createNameTable (knex, tableName) {
 }
 
 function url (table, columnName) {
-  table.string(columnName, 2000)
+  return table.string(columnName, 2000)
 }
 
 function email (table, columnName) {

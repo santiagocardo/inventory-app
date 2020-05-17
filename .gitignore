@@ -115,3 +115,4 @@ dist
 .pnp.*
 
 docker-data
+.DS_Store
